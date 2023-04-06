@@ -1,3 +1,20 @@
+# Biz Compilation Notes:
+
+Ensure that you have the SDK & BOLOS environments set up as subdirectories in root of this repository.  If you do not, you will experience some compilation errors due to header declarations not being found by source files in SDK.  Namely, `C_warning_icon` in my tests.
+
+You do not need to download `clang` from github releases, as well.  Any old `clang` will work, but make sure its v13.0.1 or higher.
+
+### Python Modules omitted in instructions below:
+
+You will need to install `python` and `pip`, then use `pip` to install `Pillow` and `ledgerblue` modules.
+
+```
+pip install Pillow
+pip install ledgerblue
+```
+
+Other than these steps, compilation is very straightforward.
+
 # MimbleWimble Coin (MWC) and Grin (GRIN) Ledger hardware wallet apps
 
 ### Description
