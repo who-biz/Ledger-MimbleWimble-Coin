@@ -3,6 +3,45 @@ ifeq ($(BOLOS_SDK),)
 
 # Display error
 $(error Environment variable BOLOS_SDK is not set)
+else
+$(info BOLOS_SDK set to ${BOLOS_SDK})
+endif
+
+# Check if BOLOS environment is defined
+ifneq ($(BOLOS_ENV),)
+
+# Display message
+$(info BOLOS_ENV=$(BOLOS_ENV))
+
+	# Set compiler paths
+	CLANGPATH := $(BOLOS_ENV)/clang-arm-fropi/bin/
+	GCCPATH := $(BOLOS_ENV)/gcc-arm-none-eabi/bin/
+
+# Otherwise
+else
+
+# Display message
+$(info BOLOS_ENV is not set: falling back to CLANGPATH and GCCPATH)
+endif
+
+# Check if Clang path isn't defined
+ifeq ($(CLANGPATH),)
+
+# Display message
+$(info CLANGPATH is not set: clang will be used from PATH)
+else
+$(info CLANGPATH is set to: ${CLANGPATH})
+$(info clang will be used from the above path.)
+endif
+
+# Check if GCC path isn't degined
+ifeq ($(GCCPATH),)
+
+# Display message
+$(info GCCPATH is not set: arm-none-eabi-* will be used from PATH)
+else
+$(info GCCPATH is set to: ${GCCPATH})
+$(info arm-none-eabi-* will be used from the above path.)
 endif
 
 # Include BOLOS SDK Makefile defines
@@ -303,6 +342,8 @@ else
 $(error Unsupported CURRENCY - use mimblewimble_coin, mimblewimble_coin_floonet, grin, or grin_testnet)
 endif
 
+$(info Building for ${APPNAME}...)
+
 # Define total number of supported currencies
 DEFINES += TOTAL_NUMBER_OF_SUPPORTED_CURRENCIES=4
 
@@ -428,37 +469,6 @@ endif
 
 # Define stack canary
 DEFINES += HAVE_BOLOS_APP_STACK_CANARY
-
-# Check if BOLOS environment is defined
-ifneq ($(BOLOS_ENV),)
-
-# Display message
-$(info BOLOS_ENV=$(BOLOS_ENV))
-
-	# Set compiler paths
-	CLANGPATH := $(BOLOS_ENV)/clang-arm-fropi/bin/
-	GCCPATH := $(BOLOS_ENV)/gcc-arm-none-eabi/bin/
-
-# Otherwise
-else
-
-# Display message
-$(info BOLOS_ENV is not set: falling back to CLANGPATH and GCCPATH)
-endif
-
-# Check if Clang path isn't defined
-ifeq ($(CLANGPATH),)
-
-# Display message
-$(info CLANGPATH is not set: clang will be used from PATH)
-endif
-
-# Check if GCC path isn't degined
-ifeq ($(GCCPATH),)
-
-# Display message
-$(info GCCPATH is not set: arm-none-eabi-* will be used from PATH)
-endif
 
 # Compiler settings
 CC := $(CLANGPATH)clang
