@@ -122,7 +122,13 @@ enum CurrencyIds {
 	GRIN,
 	
 	// Grin testnet
-	GRIN_TESTNET
+	GRIN_TESTNET,
+
+    // Epic Cash
+    EPIC,
+
+    // Epic Cash floonet
+    EPIC_FLOONET
 };
 
 

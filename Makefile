@@ -14,7 +14,7 @@ ifneq ($(BOLOS_ENV),)
 $(info BOLOS_ENV=$(BOLOS_ENV))
 
 	# Set compiler paths
-	CLANGPATH := $(BOLOS_ENV)/clang-arm-fropi/bin/
+	CLANGPATH := /usr/bin/
 	GCCPATH := $(BOLOS_ENV)/gcc-arm-none-eabi/bin/
 
 # Otherwise
@@ -335,11 +335,66 @@ else ifeq ($(CURRENCY),grin_testnet)
 	# Emulator flags
 	EMULATOR_FLAGS += --library "MimbleWimble Coin":"mimblewimble coin.elf"
 
-# Otherwise
-else
+# Check if currency is MimbleWimble Coin
+else ifeq ($(CURRENCY),epic)
 
+	# Application name
+	APPNAME = "Epic Cash"
+
+	# 44'/593' path on secp256k1 curve
+	APP_LOAD_PARAMS += --curve secp256k1 --path "44'/593'"
+
+	# Check if target is the Nano X
+	ifeq ($(TARGET_NAME),TARGET_NANOX)
+
+		# APPLICATION_FLAG_LIBRARY and APPLICATION_FLAG_BOLOS_SETTINGS application flags for Bluetooth
+		APP_LOAD_PARAMS += --appFlags 0xA00
+
+	# Otherwise check if target is the Stax
+	else ifeq ($(TARGET_NAME),TARGET_STAX)
+
+		# APPLICATION_FLAG_LIBRARY and APPLICATION_FLAG_BOLOS_SETTINGS application flags for Bluetooth
+		APP_LOAD_PARAMS += --appFlags 0xA00
+
+	# Otherwise
+	else
+
+		# APPLICATION_FLAG_LIBRARY application flags
+		APP_LOAD_PARAMS += --appFlags 0x800
+	endif
+
+	# Defines
+	DEFINES += CURRENCY_ID=4
+	DEFINES += CURRENCY_BIP44_COIN_TYPE=593
+	DEFINES += CURRENCY_FRACTIONAL_DIGITS=9
+	DEFINES += CURRENCY_ENABLE_MQS_ADDRESS
+	DEFINES += CURRENCY_MQS_VERSION=\{1,69\}
+	DEFINES += CURRENCY_NAME=\"Epic\\x20\\x43ash\"
+	DEFINES += CURRENCY_ABBREVIATION=\"EPIC\"
+	DEFINES += CURRENCY_VERSION=\"$(APPVERSION)\"
+	
+	# Check if target is the Stax
+	ifeq ($(TARGET_NAME),TARGET_STAX)
+	
+		# Defines
+		DEFINES += CURRENCY_ICON_DETAILS=C_icon_mimblewimble_coin_big
+		DEFINES += CURRENCY_ICON_BITMAP=C_icon_mimblewimble_coin_big_bitmap
+	
+	# Otherwise
+	else
+	
+		# Defines
+		DEFINES += CURRENCY_ICON_DETAILS=C_icon_mimblewimble_coin
+		DEFINES += CURRENCY_ICON_COLORS=C_icon_mimblewimble_coin_colors
+		DEFINES += CURRENCY_ICON_BITMAP=C_icon_mimblewimble_coin_bitmap
+	endif
+
+	# Icon
+	ICON = MimbleWimble Coin
+
+else
 # Display error
-$(error Unsupported CURRENCY - use mimblewimble_coin, mimblewimble_coin_floonet, grin, or grin_testnet)
+$(error Unsupported CURRENCY - use mimblewimble_coin, mimblewimble_coin_floonet, grin, grin_testnet, or epic)
 endif
 
 $(info Building for ${APPNAME}...)
