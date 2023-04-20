@@ -342,7 +342,7 @@ else ifeq ($(CURRENCY),epic)
 	APPNAME = "Epic Cash"
 
 	# 44'/593' path on secp256k1 curve
-	APP_LOAD_PARAMS += --curve secp256k1 --path "44'/593'"
+	APP_LOAD_PARAMS += --curve secp256k1 --path "44'/744'"
 
 	# Check if target is the Nano X
 	ifeq ($(TARGET_NAME),TARGET_NANOX)
@@ -368,21 +368,21 @@ else ifeq ($(CURRENCY),epic)
 	DEFINES += CURRENCY_BIP44_COIN_TYPE=593
 	DEFINES += CURRENCY_FRACTIONAL_DIGITS=9
 	DEFINES += CURRENCY_ENABLE_MQS_ADDRESS
-	DEFINES += CURRENCY_MQS_VERSION=\{1,69\}
+	DEFINES += CURRENCY_MQS_VERSION=\{1,0\}
 	DEFINES += CURRENCY_NAME=\"Epic\\x20\\x43ash\"
 	DEFINES += CURRENCY_ABBREVIATION=\"EPIC\"
 	DEFINES += CURRENCY_VERSION=\"$(APPVERSION)\"
-	
+
 	# Check if target is the Stax
 	ifeq ($(TARGET_NAME),TARGET_STAX)
-	
+
 		# Defines
 		DEFINES += CURRENCY_ICON_DETAILS=C_icon_mimblewimble_coin_big
 		DEFINES += CURRENCY_ICON_BITMAP=C_icon_mimblewimble_coin_big_bitmap
-	
+
 	# Otherwise
 	else
-	
+
 		# Defines
 		DEFINES += CURRENCY_ICON_DETAILS=C_icon_mimblewimble_coin
 		DEFINES += CURRENCY_ICON_COLORS=C_icon_mimblewimble_coin_colors
