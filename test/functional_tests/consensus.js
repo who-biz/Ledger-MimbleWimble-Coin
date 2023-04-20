@@ -36,6 +36,12 @@ class Consensus {
 					
 						// Return GRIN wallet type
 						return Consensus.GRIN_WALLET_TYPE;
+
+					// EPIC wallet
+					case Consensus.WALLET_EPIC_TEXT_VALUE:
+					
+						// Return EPIC wallet type
+						return Consensus.EPIC_WALLET_TYPE;
 				}
 			}
 			
@@ -88,6 +94,7 @@ class Consensus {
 					
 								// Return testnet network type
 								return Consensus.TESTNET_NETWORK_TYPE;
+
 						}
 						
 						// Break
@@ -1032,6 +1039,13 @@ class Consensus {
 		
 			// Return wallet GRIN text value
 			return (typeof Language !== "undefined") ? Language.getDefaultTranslation('Grin') : "Grin";
+		}
+
+		// Wallet GRIN value
+		static get WALLET_EPIC_TEXT_VALUE() {
+		
+			// Return wallet EPIC text value
+			return (typeof Language !== "undefined") ? Language.getDefaultTranslation('EpicCash') : "EpicCash";
 		}
 		
 		// Network mainnet value

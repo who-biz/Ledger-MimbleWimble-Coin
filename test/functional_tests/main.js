@@ -219,6 +219,19 @@ const DEFAULT_CURRENCY = "mimblewimble_coin";
 			// Break
 			break;
 		
+		// Grin
+		case "epic":
+		
+			// Set consensus's get wallet type
+			Consensus.getWalletType = function() {
+			
+				// Return Epic wallet type
+				return Consensus.EPIC_WALLET_TYPE;
+			};
+		
+			// Break
+			break;
+		
 		// Default
 		default:
 		
