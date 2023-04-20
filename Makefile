@@ -390,7 +390,7 @@ else ifeq ($(CURRENCY),epic)
 	endif
 
 	# Icon
-	ICON = MimbleWimble Coin
+	ICON = Epic Cash
 
 else
 # Display error
