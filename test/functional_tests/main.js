@@ -758,6 +758,9 @@ async function getRootPublicKeyTest(hardwareWallet, extendedPrivateKey) {
 	// Log root public key
 	console.log("Root public key: " + Common.toHexString(response));
 	
+    // Display expected key
+    console.log("Expected: " + Common.toHexString(expectedRootPublicKey));
+
 	// Check if root public key is invalid
 	if(Common.arraysAreEqual(response, expectedRootPublicKey) === false) {
 	
