@@ -1,4 +1,5 @@
 // Header files
+#include <alloca.h>
 #include <os.h>
 #include <os_io_seproxyhal.h>
 #include <string.h>
@@ -530,65 +531,79 @@ void getAddressPrivateKey(volatile cx_ecfp_private_key_t *addressPrivateKey, con
 		// Try
 		TRY {
 		
-			// Check if currency allows MQS addresses or Tor addresses
-			if(currencyInformation->enableMqsAddress || currencyInformation->enableTorAddress) {
-		
-				// Derive blinding factor from the address private key blinding factor value and the root path
-				deriveBlindingFactor(blindingFactor, account, ADDRESS_PRIVATE_KEY_BLINDING_FACTOR_VALUE, NULL, 0, REGULAR_SWITCH_TYPE);
+			// Check currency ID
+			switch(currencyInformation->id) {
+			
+				// MimbleWimble Coin or MimbleWimble Coin floonet
+				case MIMBLEWIMBLE_COIN:
+				case MIMBLEWIMBLE_COIN_FLOONET:
+                case EPIC:
 				
-				// Get the node as the HMAC-SHA512 of the blinding factor with the addres private key hash key as the key
-				cx_hmac_sha512((uint8_t *)ADDRESS_PRIVATE_KEY_HASH_KEY, sizeof(ADDRESS_PRIVATE_KEY_HASH_KEY), (uint8_t *)blindingFactor, sizeof(blindingFactor), (uint8_t *)node, sizeof(node));
+					// Derive blinding factor from the address private key blinding factor value and the root path
+					deriveBlindingFactor(blindingFactor, account, ADDRESS_PRIVATE_KEY_BLINDING_FACTOR_VALUE, NULL, 0, REGULAR_SWITCH_TYPE);
+					
+					// Get the node as the HMAC-SHA512 of the blinding factor with the addres private key hash key as the key
+					cx_hmac_sha512((uint8_t *)ADDRESS_PRIVATE_KEY_HASH_KEY, sizeof(ADDRESS_PRIVATE_KEY_HASH_KEY), (uint8_t *)blindingFactor, sizeof(blindingFactor), (uint8_t *)node, sizeof(node));
+					
+					// Check if node isn't a valid private key
+					if(!isValidSecp256k1PrivateKey((uint8_t *)node, sizeof(privateKey.d))) {
+					
+						// Throw internal error error
+						THROW(INTERNAL_ERROR_ERROR);
+					}
+					
+					// Get private key from node
+					cx_ecfp_init_private_key(CX_CURVE_SECP256K1, (uint8_t *)node, sizeof(privateKey.d), (cx_ecfp_private_key_t *)&privateKey);
+					
+					// Get chain code from the node
+					uint8_t *chainCode = (uint8_t *)&node[sizeof(privateKey.d)];
+					
+					// Derive child key from the private key and chain code at the index
+					deriveChildKey(&privateKey, chainCode, account, &index, 1, true);
+					
+					// Break
+					break;
 				
-				// Check if node isn't a valid private key
-				if(!isValidSecp256k1PrivateKey((uint8_t *)node, sizeof(privateKey.d))) {
+				// Grin or Grin testnet
+				case GRIN:
+				case GRIN_TESTNET:
+					{
+						// Initialize child path
+						const uint32_t childPath[] = {
+							0,
+							1,
+							index
+						};
+						
+						// Derive blinding factor from the child path
+						deriveBlindingFactor(blindingFactor, account, 0, childPath, ARRAYLEN(childPath), NO_SWITCH_TYPE);
+					}
+					
+					// Get hash from the blinding factor
+					uint8_t *hash = (uint8_t *)node;
+					getBlake2b(hash, SECP256K1_PRIVATE_KEY_SIZE, (uint8_t *)blindingFactor, sizeof(blindingFactor), NULL, 0);
+					
+					// Check if hash isn't a valid private key
+					if(!isValidSecp256k1PrivateKey(hash, SECP256K1_PRIVATE_KEY_SIZE)) {
+					
+						// Throw internal error error
+						THROW(INTERNAL_ERROR_ERROR);
+					}
+					
+					// Get private key from hash
+					cx_ecfp_init_private_key(CX_CURVE_SECP256K1, hash, SECP256K1_PRIVATE_KEY_SIZE, (cx_ecfp_private_key_t *)&privateKey);
+					
+					// Break
+					break;
+				
+				// Default
+				default:
 				
 					// Throw internal error error
 					THROW(INTERNAL_ERROR_ERROR);
-				}
-				
-				// Get private key from node
-				cx_ecfp_init_private_key(CX_CURVE_SECP256K1, (uint8_t *)node, sizeof(privateKey.d), (cx_ecfp_private_key_t *)&privateKey);
-				
-				// Get chain code from the node
-				uint8_t *chainCode = (uint8_t *)&node[sizeof(privateKey.d)];
-				
-				// Derive child key from the private key and chain code at the index
-				deriveChildKey(&privateKey, chainCode, account, &index, 1, true);
-			}
-			
-			// Otherwise check if currency allows Slatepack addresses
-			else if(currencyInformation->enableSlatepackAddress) {
-			
-				// Initialize child path
-				const uint32_t childPath[] = {
-					0,
-					1,
-					index
-				};
-				
-				// Derive blinding factor from the child path
-				deriveBlindingFactor(blindingFactor, account, 0, childPath, ARRAYLEN(childPath), NO_SWITCH_TYPE);
-				
-				// Get hash from the blinding factor
-				uint8_t *hash = (uint8_t *)node;
-				getBlake2b(hash, SECP256K1_PRIVATE_KEY_SIZE, (uint8_t *)blindingFactor, sizeof(blindingFactor), NULL, 0);
-				
-				// Check if hash isn't a valid private key
-				if(!isValidSecp256k1PrivateKey(hash, SECP256K1_PRIVATE_KEY_SIZE)) {
-				
-					// Throw internal error error
-					THROW(INTERNAL_ERROR_ERROR);
-				}
-				
-				// Get private key from hash
-				cx_ecfp_init_private_key(CX_CURVE_SECP256K1, hash, SECP256K1_PRIVATE_KEY_SIZE, (cx_ecfp_private_key_t *)&privateKey);
-			}
-			
-			// Otherwise
-			else {
-			
-				// Throw internal error error
-				THROW(INTERNAL_ERROR_ERROR);
+					
+					// Break
+					break;
 			}
 			
 			// Check curve
@@ -812,8 +827,11 @@ size_t getEncryptedDataLength(const size_t dataLength) {
 // Encrypt data
 void encryptData(volatile uint8_t *result, const uint8_t *data, const size_t dataLength, const uint8_t *key, const size_t keyLength) {
 
+	// Get padded data length
+	const size_t paddedDataLength = getEncryptedDataLength(dataLength);
+	
 	// Initialize padded data
-	volatile uint8_t paddedData[getEncryptedDataLength(dataLength)];
+	volatile uint8_t *paddedData = alloca(paddedDataLength);
 	
 	// Initialize encryption key
 	volatile cx_aes_key_t encryptionKey;
@@ -826,13 +844,13 @@ void encryptData(volatile uint8_t *result, const uint8_t *data, const size_t dat
 		
 			// Pad the data
 			memcpy((uint8_t *)paddedData, data, dataLength);
-			memset((uint8_t *)&paddedData[dataLength], sizeof(paddedData) - dataLength, sizeof(paddedData) - dataLength);
+			memset((uint8_t *)&paddedData[dataLength], paddedDataLength - dataLength, paddedDataLength - dataLength);
 		
 			// Initialize the encryption key with the key
 			cx_aes_init_key(key, keyLength, (cx_aes_key_t *)&encryptionKey);
 			
 			// Encrypt the padded data with the encryption key
-			cx_aes((cx_aes_key_t *)&encryptionKey, CX_ENCRYPT | CX_PAD_NONE | CX_CHAIN_CBC | CX_LAST, (uint8_t *)paddedData, sizeof(paddedData), (uint8_t *)result, sizeof(paddedData));
+			cx_aes((cx_aes_key_t *)&encryptionKey, CX_ENCRYPT | CX_PAD_NONE | CX_CHAIN_CBC | CX_LAST, (uint8_t *)paddedData, paddedDataLength, (uint8_t *)result, paddedDataLength);
 		}
 		
 		// Finally
@@ -842,7 +860,7 @@ void encryptData(volatile uint8_t *result, const uint8_t *data, const size_t dat
 			explicit_bzero((cx_aes_key_t *)&encryptionKey, sizeof(encryptionKey));
 			
 			// Clear the padded data
-			explicit_bzero((uint8_t *)paddedData, sizeof(paddedData));
+			explicit_bzero((uint8_t *)paddedData, paddedDataLength);
 		}
 	}
 	
@@ -1618,12 +1636,10 @@ void calculateBulletproofComponents(volatile uint8_t *tauX, volatile uint8_t *tO
 	// Initialize aterm
 	volatile uint8_t aterm[UNCOMPRESSED_PUBLIC_KEY_SIZE] = {UNCOMPRESSED_PUBLIC_KEY_PREFIX};
 	
-	// Initialize y and z
-	volatile uint8_t y[sizeof(runningCommitment)];
+	// Initialize z
 	volatile uint8_t z[sizeof(runningCommitment)];
 	
-	// Initialize t0, t1, and t2
-	volatile uint8_t t0[SCALAR_SIZE] = {0};
+	// Initialize t1 and t2
 	volatile uint8_t t1[SCALAR_SIZE] = {0};
 	volatile uint8_t t2[SCALAR_SIZE] = {0};
 	
@@ -1637,12 +1653,13 @@ void calculateBulletproofComponents(volatile uint8_t *tauX, volatile uint8_t *tO
 			bulletproofUpdateCommitment(runningCommitment, &commitment[PUBLIC_KEY_PREFIX_SIZE], GENERATOR_H);
 
 			// Set value in value bytes
-			uint8_t valueBytes[SCALAR_SIZE] = {0};
-			U4BE_ENCODE(valueBytes, sizeof(valueBytes) - sizeof(uint32_t), value);
-			U4BE_ENCODE(valueBytes, sizeof(valueBytes) - sizeof(uint64_t), value >> (sizeof(uint32_t) * BITS_IN_A_BYTE));
+			uint8_t *valueBytes = (uint8_t *)z;
+			explicit_bzero(valueBytes, SCALAR_SIZE - sizeof(value));
+			U4BE_ENCODE(valueBytes, SCALAR_SIZE - sizeof(uint32_t), value);
+			U4BE_ENCODE(valueBytes, SCALAR_SIZE - sizeof(uint64_t), value >> (sizeof(uint32_t) * BITS_IN_A_BYTE));
 
 			// Set proof message in value bytes
-			memcpy(&valueBytes[sizeof(valueBytes) - sizeof(value) - PROOF_MESSAGE_SIZE], proofMessage, PROOF_MESSAGE_SIZE);
+			memcpy(&valueBytes[SCALAR_SIZE - sizeof(value) - PROOF_MESSAGE_SIZE], proofMessage, PROOF_MESSAGE_SIZE);
 
 			// Create alpha and rho from the rewind nonce
 			createScalarsFromChaCha20(alpha, rho, rewindNonce, 0);
@@ -1774,7 +1791,8 @@ void calculateBulletproofComponents(volatile uint8_t *tauX, volatile uint8_t *tO
 			}
 
 			// Get y from running commitment
-			memcpy((uint8_t *)y, (uint8_t *)runningCommitment, sizeof(y));
+			uint8_t *y = (uint8_t *)alpha;
+			memcpy(y, (uint8_t *)runningCommitment, sizeof(runningCommitment));
 
 			// Update running commitment with the alpha generator and rho generator
 			bulletproofUpdateCommitment(runningCommitment, (uint8_t *)&alphaGenerator[PUBLIC_KEY_PREFIX_SIZE], (uint8_t *)&rhoGenerator[PUBLIC_KEY_PREFIX_SIZE]);
@@ -1790,7 +1808,9 @@ void calculateBulletproofComponents(volatile uint8_t *tauX, volatile uint8_t *tO
 			memcpy((uint8_t *)z, (uint8_t *)runningCommitment, sizeof(z));
 			
 			// Create t0, t1, and t2 with an LR generator
-			useLrGenerator(t0, t1, t2, (uint8_t *)y, (uint8_t *)z, rewindNonce, value);
+			uint8_t *t0 = (uint8_t *)rho;
+			explicit_bzero(t0, SCALAR_SIZE);
+			useLrGenerator(t0, t1, t2, y, (uint8_t *)z, rewindNonce, value);
 			
 			// Show progress bar
 			showProgressBar(MAXIMUM_PROGRESS_BAR_PERCENT);
@@ -1799,15 +1819,16 @@ void calculateBulletproofComponents(volatile uint8_t *tauX, volatile uint8_t *tO
 			cx_math_subm((uint8_t *)t1, (uint8_t *)t1, (uint8_t *)t2, SECP256K1_CURVE_ORDER, sizeof(t1));
 			
 			// Divide the difference by two
-			uint8_t twoInverse[SCALAR_SIZE] = {
-				[SCALAR_SIZE - 1] = 2
-			};
-			cx_math_invprimem(twoInverse, twoInverse, SECP256K1_CURVE_ORDER, sizeof(twoInverse));
+			uint8_t *twoInverse = (uint8_t *)alpha;
+			explicit_bzero(twoInverse, SCALAR_SIZE - 1);
+			twoInverse[SCALAR_SIZE - 1] = 2;
+			
+			cx_math_invprimem(twoInverse, twoInverse, SECP256K1_CURVE_ORDER, SCALAR_SIZE);
 			
 			cx_math_multm((uint8_t *)t1, (uint8_t *)t1, twoInverse, SECP256K1_CURVE_ORDER, sizeof(t1));
 			
 			// Get the difference of t2 and t0
-			cx_math_subm((uint8_t *)t2, (uint8_t *)t2, (uint8_t *)t0, SECP256K1_CURVE_ORDER, sizeof(t2));
+			cx_math_subm((uint8_t *)t2, (uint8_t *)t2, t0, SECP256K1_CURVE_ORDER, sizeof(t2));
 			
 			// Add t1 to the difference
 			cx_math_addm((uint8_t *)t2, (uint8_t *)t2, (uint8_t *)t1, SECP256K1_CURVE_ORDER, sizeof(t2));
@@ -1976,13 +1997,11 @@ void calculateBulletproofComponents(volatile uint8_t *tauX, volatile uint8_t *tO
 		// Finally
 		FINALLY {
 		
-			// Clear t0, t1, and t2
-			explicit_bzero((uint8_t *)t0, sizeof(t0));
+			// Clear t1 and t2
 			explicit_bzero((uint8_t *)t1, sizeof(t1));
 			explicit_bzero((uint8_t *)t2, sizeof(t2));
 			
-			// Clear y, and z
-			explicit_bzero((uint8_t *)y, sizeof(y));
+			// Clear z
 			explicit_bzero((uint8_t *)z, sizeof(z));
 			
 			// Clear aterm
@@ -2105,7 +2124,7 @@ void deriveChildKey(volatile cx_ecfp_private_key_t *privateKey, volatile uint8_t
 // Bulletproof update commitment
 void bulletproofUpdateCommitment(volatile uint8_t *commitment, const uint8_t *leftPart, const uint8_t *rightPart) {
 
-	// Initialzie the hash
+	// Initialize the hash
 	volatile cx_sha256_t hash;
 	
 	// Begin try
@@ -2114,7 +2133,7 @@ void bulletproofUpdateCommitment(volatile uint8_t *commitment, const uint8_t *le
 		// Try
 		TRY {
 		
-			// Initialzie hash
+			// Initialize hash
 			cx_sha256_init((cx_sha256_t *)&hash);
 			
 			// Add commitment to the hash
@@ -2485,8 +2504,8 @@ end:
 		error = MAX(cx_ecpoint_destroy(&resultPoint), error);
 	}
 	
-	// Unlock big number processor and throw error if it fails
-	CX_THROW(cx_bn_unlock());
+	// Unlock big number processor and set error to if it fails
+	error = MAX(cx_bn_unlock(), error);
 	
 	// Check if error occurred
 	if(error) {
