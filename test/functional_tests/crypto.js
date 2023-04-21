@@ -433,10 +433,16 @@ class Crypto {
 		
 				// Get secret key from extended private key
 				var secretKey = extendedPrivateKey.subarray(0, Crypto.SECP256K1_SECRET_KEY_LENGTH);
-				
+
+                // Log secret key to console for testing //TODO:REMOVE
+                console.log("extendedPrivateKey(" + Common.toHexString(extendedPrivateKey) + "), secretKey(" + Common.toHexString(secretKey) + ")");		
+		
 				// Check if getting public key from secret key was successful
 				var publicKey = Secp256k1Zkp.publicKeyFromSecretKey(secretKey);
 				
+                // Log secret key to console for testing //TODO:REMOVE
+                console.log("publicKey(" + Common.toHexString(publicKey) + ")");		
+
 				if(publicKey !== Secp256k1Zkp.OPERATION_FAILED) {
 				
 					// Resolve public key

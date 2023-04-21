@@ -552,7 +552,7 @@ async function performTests(useSpeculos, target) {
 			// Run get Tor certificate signature test
 			await getTorCertificateSignatureTest(hardwareWallet, extendedPrivateKey, TOR_ADDRESS_TYPE);
 		}
-		
+
 		// Otherwise check if using Grin
 		else if(Consensus.getWalletType() === Consensus.GRIN_WALLET_TYPE) {
 		
