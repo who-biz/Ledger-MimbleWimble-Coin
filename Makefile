@@ -377,20 +377,27 @@ else ifeq ($(CURRENCY),epic)
 	ifeq ($(TARGET_NAME),TARGET_STAX)
 
 		# Defines
-		DEFINES += CURRENCY_ICON_DETAILS=C_icon_mimblewimble_coin_big
-		DEFINES += CURRENCY_ICON_BITMAP=C_icon_mimblewimble_coin_big_bitmap
+		DEFINES += CURRENCY_ICON_DETAILS=C_icon_epic_cash_big
+		DEFINES += CURRENCY_ICON_BITMAP=C_icon_epic_cash_big_bitmap
 
 	# Otherwise
 	else
 
 		# Defines
-		DEFINES += CURRENCY_ICON_DETAILS=C_icon_mimblewimble_coin
-		DEFINES += CURRENCY_ICON_COLORS=C_icon_mimblewimble_coin_colors
-		DEFINES += CURRENCY_ICON_BITMAP=C_icon_mimblewimble_coin_bitmap
+		DEFINES += CURRENCY_ICON_DETAILS=C_icon_epic_cash
+		DEFINES += CURRENCY_ICON_COLORS=C_icon_epic_cash_colors
+		DEFINES += CURRENCY_ICON_BITMAP=C_icon_epic_cash_bitmap
 	endif
+
+	# Defines library
+#	DEFINES += USE_LIB_MIMBLEWIMBLE_COIN
+#	APP_LOAD_PARAMS += --dep "MimbleWimble Coin":$(APPVERSION)
 
 	# Icon
 	ICON = Epic Cash
+
+	# Emulator flags
+#	EMULATOR_FLAGS += --library "MimbleWimble Coin":"mimblewimble coin.elf"
 
 else
 # Display error
