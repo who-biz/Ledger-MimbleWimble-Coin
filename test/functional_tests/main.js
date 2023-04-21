@@ -347,6 +347,13 @@ async function performTests(useSpeculos, target) {
 			// Run get address test
 			await getAddressTest(hardwareWallet, extendedPrivateKey, SLATEPACK_ADDRESS_TYPE);
 		}
+
+		// Otherwise check if using Epic
+		else if(Consensus.getWalletType() === Consensus.EPIC_WALLET_TYPE) {
+		
+			// Run get address test
+			await getAddressTest(hardwareWallet, extendedPrivateKey, MQS_ADDRESS_TYPE);
+		}
 		
 		// Run get seed cookie test
 		await getSeedCookieTest(hardwareWallet, extendedPrivateKey);
@@ -376,6 +383,13 @@ async function performTests(useSpeculos, target) {
 			// Run verify address test
 			await verifyAddressTest(hardwareWallet, extendedPrivateKey, SLATEPACK_ADDRESS_TYPE);
 		}
+
+		// Otherwise check if using Epic
+		else if(Consensus.getWalletType() === Consensus.EPIC_WALLET_TYPE) {
+		
+			// Run verify address test
+			await verifyAddressTest(hardwareWallet, extendedPrivateKey, MQS_ADDRESS_TYPE);
+		}
 		
 		// Check if using MimbleWimble Coin
 		if(Consensus.getWalletType() === Consensus.MWC_WALLET_TYPE) {
@@ -384,6 +398,13 @@ async function performTests(useSpeculos, target) {
 			await encryptSlateTest(hardwareWallet, extendedPrivateKey, MQS_ADDRESS_TYPE);
 			await encryptSlateTest(hardwareWallet, extendedPrivateKey, TOR_ADDRESS_TYPE);
 		}
+
+		// Check if using Epic
+		if(Consensus.getWalletType() === Consensus.EPIC_WALLET_TYPE) {
+		
+			// Run encrypt slate test
+			await encryptSlateTest(hardwareWallet, extendedPrivateKey, MQS_ADDRESS_TYPE);
+		}
 		
 		// Check if using MimbleWimble Coin
 		if(Consensus.getWalletType() === Consensus.MWC_WALLET_TYPE) {
@@ -391,6 +412,13 @@ async function performTests(useSpeculos, target) {
 			// Run decrypt slate test
 			await decryptSlateTest(hardwareWallet, extendedPrivateKey, MQS_ADDRESS_TYPE);
 			await decryptSlateTest(hardwareWallet, extendedPrivateKey, TOR_ADDRESS_TYPE);
+		}
+
+		// Check if using Epic
+		if(Consensus.getWalletType() === Consensus.EPIC_WALLET_TYPE) {
+		
+			// Run decrypt slate test
+			await decryptSlateTest(hardwareWallet, extendedPrivateKey, MQS_ADDRESS_TYPE);
 		}
 		
 		// Otherwise check if using Grin
@@ -444,6 +472,18 @@ async function performTests(useSpeculos, target) {
 			await receiveTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.NO_RECENT_DUPLICATE_FEATURES, Slate.NO_LOCK_HEIGHT, new BigNumber(Math.floor(Math.random() * (SlateKernel.MAXIMUM_RECENT_HEIGHT - SlateKernel.MINIMUM_RECENT_HEIGHT + 1)) + SlateKernel.MINIMUM_RECENT_HEIGHT), SLATEPACK_ADDRESS_TYPE, SLATEPACK_PAYMENT_PROOF_TYPE);
 		}
 		
+		// Check if using Epic
+		else if(Consensus.getWalletType() === Consensus.EPIC_WALLET_TYPE) {
+		
+			// Run receive transaction test
+			await receiveTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.COINBASE_FEATURES, Slate.NO_LOCK_HEIGHT, SlateKernel.NO_RELATIVE_HEIGHT, MQS_ADDRESS_TYPE, NO_PAYMENT_PROOF_TYPE);
+			await receiveTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.COINBASE_FEATURES, Slate.NO_LOCK_HEIGHT, SlateKernel.NO_RELATIVE_HEIGHT, MQS_ADDRESS_TYPE, MQS_PAYMENT_PROOF_TYPE);
+			await receiveTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.PLAIN_FEATURES, Slate.NO_LOCK_HEIGHT, SlateKernel.NO_RELATIVE_HEIGHT, MQS_ADDRESS_TYPE, NO_PAYMENT_PROOF_TYPE);
+			await receiveTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.PLAIN_FEATURES, Slate.NO_LOCK_HEIGHT, SlateKernel.NO_RELATIVE_HEIGHT, MQS_ADDRESS_TYPE, MQS_PAYMENT_PROOF_TYPE);
+			await receiveTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.HEIGHT_LOCKED_FEATURES, new BigNumber(Math.round(Math.random() * Number.MAX_SAFE_INTEGER)), SlateKernel.NO_RELATIVE_HEIGHT, MQS_ADDRESS_TYPE, NO_PAYMENT_PROOF_TYPE);
+			await receiveTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.HEIGHT_LOCKED_FEATURES, new BigNumber(Math.round(Math.random() * Number.MAX_SAFE_INTEGER)), SlateKernel.NO_RELATIVE_HEIGHT, MQS_ADDRESS_TYPE, MQS_PAYMENT_PROOF_TYPE);
+		}
+
 		// Check if using MimbleWimble Coin
 		if(Consensus.getWalletType() === Consensus.MWC_WALLET_TYPE) {
 		
@@ -480,6 +520,18 @@ async function performTests(useSpeculos, target) {
 			await sendTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.NO_RECENT_DUPLICATE_FEATURES, Slate.NO_LOCK_HEIGHT, new BigNumber(Math.floor(Math.random() * (SlateKernel.MAXIMUM_RECENT_HEIGHT - SlateKernel.MINIMUM_RECENT_HEIGHT + 1)) + SlateKernel.MINIMUM_RECENT_HEIGHT), SLATEPACK_ADDRESS_TYPE, SLATEPACK_PAYMENT_PROOF_TYPE);
 		}
 		
+		// Check if using Epic
+		if(Consensus.getWalletType() === Consensus.EPIC_WALLET_TYPE) {
+		
+			// Run send transaction test
+			await sendTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.PLAIN_FEATURES, Slate.NO_LOCK_HEIGHT, SlateKernel.NO_RELATIVE_HEIGHT, MQS_ADDRESS_TYPE, NO_PAYMENT_PROOF_TYPE);
+			await sendTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.PLAIN_FEATURES, Slate.NO_LOCK_HEIGHT, SlateKernel.NO_RELATIVE_HEIGHT, MQS_ADDRESS_TYPE, MQS_PAYMENT_PROOF_TYPE);
+			await sendTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.HEIGHT_LOCKED_FEATURES, new BigNumber(Math.round(Math.random() * Number.MAX_SAFE_INTEGER)), SlateKernel.NO_RELATIVE_HEIGHT, MQS_ADDRESS_TYPE, NO_PAYMENT_PROOF_TYPE);
+			await sendTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.HEIGHT_LOCKED_FEATURES, new BigNumber(Math.round(Math.random() * Number.MAX_SAFE_INTEGER)), SlateKernel.NO_RELATIVE_HEIGHT, MQS_ADDRESS_TYPE, MQS_PAYMENT_PROOF_TYPE);
+			await sendTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.NO_RECENT_DUPLICATE_FEATURES, Slate.NO_LOCK_HEIGHT, new BigNumber(Math.floor(Math.random() * (SlateKernel.MAXIMUM_RECENT_HEIGHT - SlateKernel.MINIMUM_RECENT_HEIGHT + 1)) + SlateKernel.MINIMUM_RECENT_HEIGHT), MQS_ADDRESS_TYPE, NO_PAYMENT_PROOF_TYPE);
+			await sendTransactionTest(hardwareWallet, extendedPrivateKey, Crypto.SWITCH_TYPE_REGULAR, SlateKernel.NO_RECENT_DUPLICATE_FEATURES, Slate.NO_LOCK_HEIGHT, new BigNumber(Math.floor(Math.random() * (SlateKernel.MAXIMUM_RECENT_HEIGHT - SlateKernel.MINIMUM_RECENT_HEIGHT + 1)) + SlateKernel.MINIMUM_RECENT_HEIGHT), MQS_ADDRESS_TYPE, MQS_PAYMENT_PROOF_TYPE);
+		}
+
 		// Check if using MimbleWimble Coin
 		if(Consensus.getWalletType() === Consensus.MWC_WALLET_TYPE) {
 		
@@ -487,6 +539,13 @@ async function performTests(useSpeculos, target) {
 			await getMqsTimestampSignatureTest(hardwareWallet, extendedPrivateKey);
 		}
 		
+		// Check if using Epic
+		else if(Consensus.getWalletType() === Consensus.EPIC_WALLET_TYPE) {
+		
+			// Run get MQS timestamp signature test
+			await getMqsTimestampSignatureTest(hardwareWallet, extendedPrivateKey);
+		}
+
 		// Check if using MimbleWimble Coin
 		if(Consensus.getWalletType() === Consensus.MWC_WALLET_TYPE) {
 		
