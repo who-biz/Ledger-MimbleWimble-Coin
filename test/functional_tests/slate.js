@@ -2057,27 +2057,27 @@ class Slate {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 				
 					// Return creating message from commit, sender address, and amount
 					return (new TextEncoder()).encode(Common.toHexString(commit) + senderAddress + amount.toFixed());
 				
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				//case Consensus.GRIN_WALLET_TYPE:
 		
 					// Return creating message from amount, commit, and sender address
-					return Common.mergeArrays([
+					//return Common.mergeArrays([
 					
 						// Amount
-						amount.toBytes(BigNumber.BIG_ENDIAN, Common.BYTES_IN_A_UINT64),
+						//amount.toBytes(BigNumber.BIG_ENDIAN, Common.BYTES_IN_A_UINT64),
 						
 						// Commit
-						commit,
+						//commit,
 						
 						// Sender address
-						Slatepack.slatepackAddressToPublicKey(senderAddress)
-					]);
+						//Slatepack.slatepackAddressToPublicKey(senderAddress)
+					//]);
 			}
 		}
 		
@@ -2087,8 +2087,8 @@ class Slate {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 		
 					// Return supported versions
 					return [
@@ -2096,8 +2096,9 @@ class Slate {
 						// Version Slatepack
 						Slate.VERSION_SLATEPACK,
 						
+                        //TODO: Check if exists for EPIC, probably NRD kernels
 						// Version three B
-						"V" + Slate.VERSION_THREE.toFixed() + "B",
+						//"V" + Slate.VERSION_THREE.toFixed() + "B",
 						
 						// Version three
 						"V" + Slate.VERSION_THREE.toFixed(),
@@ -2107,14 +2108,14 @@ class Slate {
 					];
 				
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				//case Consensus.GRIN_WALLET_TYPE:
 		
 					// Return supported versions
-					return [
+					//return [
 					
 						// Version four
-						"V" + Slate.VERSION_FOUR.toFixed()
-					];
+					//	"V" + Slate.VERSION_FOUR.toFixed()
+					//];
 			}
 		}
 		
@@ -2124,8 +2125,8 @@ class Slate {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 				
 					// Get body weight from the number of inputs, outputs, and kernels
 					var bodyWeight = new BigNumber(numberOfOutputs).multipliedBy(Slate.BODY_WEIGHT_OUTPUT_FACTOR).plus(Math.max(numberOfKernels, 1)).minus(numberOfInputs);
@@ -2140,13 +2141,13 @@ class Slate {
 					break;
 				
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				//case Consensus.GRIN_WALLET_TYPE:
 				
 					// Get body weight from the number of inputs, outputs, and kernels
-					var bodyWeight = Slate.getWeight(numberOfInputs, numberOfOutputs, numberOfKernels);
+					//var bodyWeight = Slate.getWeight(numberOfInputs, numberOfOutputs, numberOfKernels);
 				
 					// Break
-					break;
+					//break;
 			}
 			
 			// Get transaction fee from body weight and the base fee
@@ -2547,17 +2548,17 @@ class Slate {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 		
 					// Return newest version
 					return Slate.VERSION_SLATEPACK;
 				
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				//case Consensus.GRIN_WALLET_TYPE:
 				
 					// Return newest version
-					return Slate.VERSION_FOUR;
+					//return Slate.VERSION_FOUR;
 			}
 		}
 		
@@ -2588,17 +2589,17 @@ class Slate {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 		
 					// Return maximum fee
 					return Number.POSITIVE_INFINITY;
 				
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				//case Consensus.GRIN_WALLET_TYPE:
 				
 					// Return maximum fee
-					return Math.pow(2, 40) - 1;
+					//return Math.pow(2, 40) - 1;
 			}
 		}
 		
@@ -4269,8 +4270,8 @@ class Slate {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 		
 					// Check if version Slatepack is preferred and kernel features are plain
 					if(preferredVersions.indexOf(Slate.VERSION_SLATEPACK) !== Common.INDEX_NOT_FOUND && this.getKernelFeatures() === SlateKernel.PLAIN_FEATURES) {
@@ -4305,10 +4306,10 @@ class Slate {
 					}
 				
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				//case Consensus.GRIN_WALLET_TYPE:
 				
 					// Return version four
-					return Slate.VERSION_FOUR;
+					//return Slate.VERSION_FOUR;
 			}
 		}
 		
@@ -4408,8 +4409,8 @@ class Slate {
 					// Check wallet type
 					switch(Consensus.getWalletType()) {
 					
-						// MWC wallet
-						case Consensus.MWC_WALLET_TYPE:
+						// EPIC wallet
+						case Consensus.EPC_WALLET_TYPE:
 					
 							// Check receiver address's length
 							switch(this.getReceiverAddress()["length"]) {
@@ -4454,30 +4455,30 @@ class Slate {
 							break;
 						
 						// GRIN wallet
-						case Consensus.GRIN_WALLET_TYPE:
+						//case Consensus.GRIN_WALLET_TYPE:
 						
 							// Check receiver address's length
-							switch(this.getReceiverAddress()["length"]) {
+							//switch(this.getReceiverAddress()["length"]) {
 						
 								// Slatepack address length
-								case Slatepack.ADDRESS_LENGTH:
+								//case Slatepack.ADDRESS_LENGTH:
 								
 									// Get receiver address's public key
-									var receiverAddressPublicKey = Slatepack.slatepackAddressToPublicKey(this.getReceiverAddress());
+									//var receiverAddressPublicKey = Slatepack.slatepackAddressToPublicKey(this.getReceiverAddress());
 								
 									// Check if receiver signature doesn't verify the message
-									if(Ed25519.verify(message, this.getReceiverSignature(), receiverAddressPublicKey) !== true) {
+									//if(Ed25519.verify(message, this.getReceiverSignature(), receiverAddressPublicKey) !== true) {
 									
 										// Return false
-										return false;
-									}
+									//	return false;
+									//}
 									
 									// Break
-									break;
-							}
+									//break;
+							//}
 							
 							// Break
-							break;
+							//break;
 					}
 				}
 				
@@ -5441,8 +5442,8 @@ class Slate {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 		
 					// Check if a compact serialized slate is provided
 					if(serializedSlate instanceof Uint8Array === true) {
@@ -5491,21 +5492,21 @@ class Slate {
 					}
 				
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				//case Consensus.GRIN_WALLET_TYPE:
 				
 					// Check if serialized slate contains a version
-					if("ver" in serializedSlate === true && typeof serializedSlate["ver"] === "string" && Slate.VERSION_PATTERN.test(serializedSlate["ver"]) === true) {
+					//if("ver" in serializedSlate === true && typeof serializedSlate["ver"] === "string" && Slate.VERSION_PATTERN.test(serializedSlate["ver"]) === true) {
 					
 						// Return serialized slate's version
-						return new BigNumber(serializedSlate["ver"].split(Slate.VERSION_SEPARATOR)[0]);
-					}
+					//	return new BigNumber(serializedSlate["ver"].split(Slate.VERSION_SEPARATOR)[0]);
+					//}
 						
 					// Otherwise
-					else {
+					//else {
 					
 						// Return unknown version
-						return Slate.UNKNOWN_VERSION;
-					}
+					//	return Slate.UNKNOWN_VERSION;
+					//}
 			}
 		}
 		
@@ -5790,11 +5791,11 @@ class Slate {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 				
 					// Return coin type
-					return "mwc";
+					return "epic";
 			}
 		}
 		

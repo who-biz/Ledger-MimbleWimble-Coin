@@ -213,8 +213,8 @@ class Identifier {
 				// Check wallet type
 				switch(Consensus.getWalletType()) {
 				
-					// MWC wallet
-					case Consensus.MWC_WALLET_TYPE:
+					// EPIC wallet
+					case Consensus.EPIC_WALLET_TYPE:
 				
 						// Set next's height path as the height limited by its maximum value
 						next.paths[Identifier.HEIGHT_PATH_INDEX] = Math.max(height.modulo(Identifier.MAXIMUM_HEIGHT + 1).toNumber(), 1);
@@ -267,8 +267,8 @@ class Identifier {
 				// Check wallet type
 				switch(Consensus.getWalletType()) {
 				
-					// MWC wallet
-					case Consensus.MWC_WALLET_TYPE:
+					// EPIC wallet
+					case Consensus.EPIC_WALLET_TYPE:
 			
 						// Set child's height path as the height limited by its maximum value
 						child.paths[Identifier.HEIGHT_PATH_INDEX] = Math.max(height.modulo(Identifier.MAXIMUM_HEIGHT + 1).toNumber(), 1);
@@ -288,8 +288,8 @@ class Identifier {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 		
 					// Get height from height path
 					var height = this.getPaths()[Identifier.HEIGHT_PATH_INDEX];
@@ -322,8 +322,8 @@ class Identifier {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 			
 					// Set copy's height path to not exist
 					copy.paths[Identifier.HEIGHT_PATH_INDEX] = Consensus.FIRST_BLOCK_HEIGHT;
