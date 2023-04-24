@@ -35,7 +35,7 @@ add_compile_definitions(HAVE_PBKDF2)
 add_compile_definitions(TOTAL_NUMBER_OF_SUPPORTED_CURRENCIES=1)
 
 # Include directories
-include_directories(./simulate ../../src $ENV{BOLOS_SDK}/include $ENV{BOLOS_SDK}/lib_cxng/include $ENV{BOLOS_SDK}/lib_ux/include)
+include_directories(./simulate ../../src $ENV{BOLOS_SDK}/include $ENV{BOLOS_SDK}/lib_cxng/include $ENV{BOLOS_SDK}/lib_ux/include $ENV{BOLOS_SDK}/target/$ENV{TARGET}/include)
 
 
 # Tests
