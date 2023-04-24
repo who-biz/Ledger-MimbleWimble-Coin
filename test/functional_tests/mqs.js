@@ -512,13 +512,13 @@ class Mqs {
 			switch(Consensus.getWalletType()) {
 			
 				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				case Consensus.EPIC_WALLET_TYPE:
 		
 					// Check if mainnet
 					if(isMainnet === true) {
 					
 						// Return address version
-						return new Uint8Array([1, 69]);
+						return new Uint8Array([1, 0]);
 					}
 					
 					// Otherwise

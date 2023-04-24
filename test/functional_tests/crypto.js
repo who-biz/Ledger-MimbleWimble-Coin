@@ -464,8 +464,8 @@ class Crypto {
 				// Check wallet type
 				switch(Consensus.getWalletType()) {
 				
-					// MWC wallet
-					case Consensus.MWC_WALLET_TYPE:
+					// EPIC wallet
+					case Consensus.EPIC_WALLET_TYPE:
 			
 						// Return deriving root key from extended private key, address key amount, root identifier, and regular switch type
 						return Crypto.deriveSecretKey(extendedPrivateKey, Crypto.ADDRESS_KEY_AMOUNT, new Identifier(Identifier.ROOT_SERIALIZED_IDENTIFIER), Crypto.SWITCH_TYPE_REGULAR).then(function(rootKey) {

@@ -164,9 +164,16 @@ const DEFAULT_CURRENCY = "epic_cash";
 	// Check currency
 	switch(currency) {
 	
-		// Epic Csah
+		// Epic Cadh
 		case "epic_cash":
 		
+			// Set consensus's get network type
+			Consensus.getNetworkType = function() {
+			
+				// Return testnet network type
+				return Consensus.MAINNET_NETWORK_TYPE;
+			};
+
 			// Break
 			break;
 		
@@ -685,11 +692,17 @@ async function getAddressTest(hardwareWallet, extendedPrivateKey, addressType) {
 			// Get MQS private key from the extended private key
 			const mqsPrivateKey = await Crypto.addressKey(extendedPrivateKey, INDEX.toNumber());
 			
+            console.log("breakpoint 1, MQS privkey: (" + Common.toHexString(mqsPrivateKey) + ")");
+
 			// Get MQS public key from the MQS private key
 			const mqsPublicKey = Secp256k1Zkp.publicKeyFromSecretKey(mqsPrivateKey);
 			
+            console.log("breakpoint 2, MQS pubkey: (" + Common.toHexString(mqsPublicKey) + ")");
+
 			// Get expected address from the MQS public key
 			var expectedAddress = Mqs.publicKeyToMqsAddress(mqsPublicKey, Consensus.getNetworkType() === Consensus.MAINNET_NETWORK_TYPE);
+
+            console.log("MQS expectedAddress(" + expectedAddress + ")");
 			
 			// Break
 			break;
