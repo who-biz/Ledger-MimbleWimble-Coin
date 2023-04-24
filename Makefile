@@ -14,7 +14,7 @@ ifneq ($(BOLOS_ENV),)
 $(info BOLOS_ENV=$(BOLOS_ENV))
 
 	# Set compiler paths
-	CLANGPATH := $(BOLOS_ENV)/clang-arm-fropi/bin/
+	CLANGPATH := /usr/bin/
 	GCCPATH := $(BOLOS_ENV)/gcc-arm-none-eabi/bin/
 
 # Otherwise
