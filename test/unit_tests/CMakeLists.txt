@@ -34,8 +34,11 @@ add_compile_definitions(HAVE_ECDH)
 add_compile_definitions(HAVE_PBKDF2)
 add_compile_definitions(TOTAL_NUMBER_OF_SUPPORTED_CURRENCIES=1)
 
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+find_package(CMocka REQUIRED)
+
 # Include directories
-include_directories(./simulate ../../src $ENV{BOLOS_SDK}/include $ENV{BOLOS_SDK}/lib_cxng/include $ENV{BOLOS_SDK}/lib_ux/include $ENV{BOLOS_SDK}/target/$ENV{TARGET}/include)
+include_directories(./simulate ../../src $ENV{BOLOS_SDK}/include $ENV{BOLOS_SDK}/lib_cxng/include $ENV{BOLOS_SDK}/lib_ux/include $ENV{BOLOS_SDK}/lib_bagl/include $ENV{BOLOS_SDK}/target/$ENV{TARGET}/include)
 
 
 # Tests
