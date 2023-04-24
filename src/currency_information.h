@@ -106,17 +106,12 @@ struct CurrencyInformation {
 // Currency IDs
 enum CurrencyIds {
 
-	// MimbleWimble Coin
-	MIMBLEWIMBLE_COIN,
+	// Epic Cash
+	EPIC_CASH,
 	
 	// MimbleWimble Coin floonet
 	MIMBLEWIMBLE_COIN_FLOONET,
 	
-	// Grin
-	GRIN,
-	
-	// Grin testnet
-	GRIN_TESTNET
 };
 
 

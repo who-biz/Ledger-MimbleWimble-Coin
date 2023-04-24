@@ -436,6 +436,9 @@ class Crypto {
 				
 				// Check if getting public key from secret key was successful
 				var publicKey = Secp256k1Zkp.publicKeyFromSecretKey(secretKey);
+
+                // Log to console for debugging of EPIC tests
+                console.log("publicKey(" + Common.toHexString(publicKey) + ")");
 				
 				if(publicKey !== Secp256k1Zkp.OPERATION_FAILED) {
 				

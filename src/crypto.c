@@ -534,8 +534,8 @@ void getAddressPrivateKey(volatile cx_ecfp_private_key_t *addressPrivateKey, con
 			// Check currency ID
 			switch(currencyInformation->id) {
 			
-				// MimbleWimble Coin or MimbleWimble Coin floonet
-				case MIMBLEWIMBLE_COIN:
+				// Epic Cash or MimbleWimble Coin floonet
+				case EPIC_CASH:
 				case MIMBLEWIMBLE_COIN_FLOONET:
 				
 					// Derive blinding factor from the address private key blinding factor value and the root path
@@ -564,7 +564,7 @@ void getAddressPrivateKey(volatile cx_ecfp_private_key_t *addressPrivateKey, con
 					break;
 				
 				// Grin or Grin testnet
-				case GRIN:
+				/*case GRIN:
 				case GRIN_TESTNET:
 				
 					{
@@ -595,7 +595,7 @@ void getAddressPrivateKey(volatile cx_ecfp_private_key_t *addressPrivateKey, con
 					
 					// Break
 					break;
-				
+				*/
 				// Default
 				default:
 				

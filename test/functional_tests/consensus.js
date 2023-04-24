@@ -25,17 +25,12 @@ class Consensus {
 				// Check override wallet type
 				switch(urlParamaters[Consensus.OVERRIDE_WALLET_TYPE_URL_PARAMETER_NAME]) {
 				
-					// MWC wallet
-					case Consensus.WALLET_MWC_TEXT_VALUE:
+					// EPIC wallet
+					case Consensus.WALLET_EPIC_TEXT_VALUE:
 					
-						// Return MWC wallet type
-						return Consensus.MWC_WALLET_TYPE;
+						// Return EPIC wallet type
+						return Consensus.EPIC_WALLET_TYPE;
 					
-					// GRIN wallet
-					case Consensus.WALLET_GRIN_TEXT_VALUE:
-					
-						// Return GRIN wallet type
-						return Consensus.GRIN_WALLET_TYPE;
 				}
 			}
 			
@@ -61,30 +56,14 @@ class Consensus {
 						// Return mainnet network type
 						return Consensus.MAINNET_NETWORK_TYPE;
 					
-					// Testnet network
-					case Consensus.NETWORK_TESTNET_TEXT_VALUE:
-					
-						// Check wallet type
-						switch(Consensus.getWalletType()) {
-						
-							// GRIN wallet
-							case Consensus.GRIN_WALLET_TYPE:
-							
-								// Return testnet network type
-								return Consensus.TESTNET_NETWORK_TYPE;
-						}
-						
-						// Break
-						break;
-					
 					// Floonet network
 					case Consensus.NETWORK_FLOONET_TEXT_VALUE:
 					
 						// Check wallet type
 						switch(Consensus.getWalletType()) {
 						
-							// MWC wallet
-							case Consensus.MWC_WALLET_TYPE:
+							// EPIC wallet
+							case Consensus.EPIC_WALLET_TYPE:
 					
 								// Return testnet network type
 								return Consensus.TESTNET_NETWORK_TYPE;
@@ -106,16 +85,11 @@ class Consensus {
 			switch(walletType) {
 			
 				// MWC wallet type
-				case Consensus.MWC_WALLET_TYPE:
+				case Consensus.EPIC_WALLET_TYPE:
 				
 					// Return MWC wallet text value
-					return Consensus.WALLET_MWC_TEXT_VALUE;
+					return Consensus.WALLET_EPIC_TEXT_VALUE;
 				
-				// GRIN wallet type
-				case Consensus.GRIN_WALLET_TYPE:
-				
-					// Return GRIN wallet text value
-					return Consensus.WALLET_GRIN_TEXT_VALUE;
 			}
 		}
 		
@@ -138,16 +112,11 @@ class Consensus {
 					switch(Consensus.getWalletType()) {
 					
 						// MWC wallet
-						case Consensus.MWC_WALLET_TYPE:
+						case Consensus.EPIC_WALLET_TYPE:
 						
 							// Return floonet network text value
 							return Consensus.NETWORK_FLOONET_TEXT_VALUE;
 					
-						// GRIN wallet
-						case Consensus.GRIN_WALLET_TYPE:
-						
-							// Return testnet network text value
-							return Consensus.NETWORK_TESTNET_TEXT_VALUE;
 					}
 			}
 		}
@@ -286,17 +255,12 @@ class Consensus {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 				
 					// Return currency name
-					return "MWC";
+					return "EPIC";
 			
-				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
-				
-					// Return currency name
-					return "GRIN";
 			}
 		}
 		
@@ -327,20 +291,13 @@ class Consensus {
 			}
 		}
 		
-		// MWC wallet type
-		static get MWC_WALLET_TYPE() {
+		// EPIC wallet type
+		static get EPIC_WALLET_TYPE() {
 		
-			// Return MWC wallet type
+			// Return EPIC wallet type
 			return 0;
 		}
-		
-		// GRIN wallet type
-		static get GRIN_WALLET_TYPE() {
-		
-			// Return GRIN wallet type
-			return Consensus.MWC_WALLET_TYPE + 1;
-		}
-		
+				
 		// Mainnet network type
 		static get MAINNET_NETWORK_TYPE() {
 		
@@ -396,8 +353,8 @@ class Consensus {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 				
 					// Check network type
 					switch(Consensus.getNetworkType()) {
@@ -406,7 +363,7 @@ class Consensus {
 						case Consensus.MAINNET_NETWORK_TYPE:
 						
 							// Return BIP44 coin type
-							return 593;
+							return 744;
 						
 						// Testnet network
 						case Consensus.TESTNET_NETWORK_TYPE:
@@ -418,27 +375,6 @@ class Consensus {
 					// Break
 					break;
 				
-				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
-				
-					// Check network type
-					switch(Consensus.getNetworkType()) {
-					
-						// Mainnet network
-						case Consensus.MAINNET_NETWORK_TYPE:
-						
-							// Return BIP44 coin type
-							return 592;
-						
-						// Testnet network
-						case Consensus.TESTNET_NETWORK_TYPE:
-						
-							// Return BIP44 coin type
-							return 1;
-					}
-					
-					// Break
-					break;
 			}
 		}
 		
@@ -448,8 +384,8 @@ class Consensus {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 				
 					// Check network type
 					switch(Consensus.getNetworkType()) {
@@ -457,40 +393,23 @@ class Consensus {
 						// Mainnet network
 						case Consensus.MAINNET_NETWORK_TYPE:
 						
+                            //TODO: Investigate what this is used for
+
+                            return Consensus.NO_EXPLORER_URL;
 							// Return explorer kernel excess URL
-							return "https://explorer.mwc.mw/#k";
+							//return "https://explorer.mwc.mw/#k";
 						
 						// Testnet network
 						case Consensus.TESTNET_NETWORK_TYPE:
 						
+                            return Consensus.NO_EXPLORER_URL;
 							// Return explorer kernel excess URL
-							return "https://explorer.floonet.mwc.mw/#k";
+							//return "https://explorer.floonet.mwc.mw/#k";
 					}
 					
 					// Break
 					break;
 				
-				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
-				
-					// Check network type
-					switch(Consensus.getNetworkType()) {
-					
-						// Mainnet network
-						case Consensus.MAINNET_NETWORK_TYPE:
-						
-							// Return no explorer URL
-							return Consensus.NO_EXPLORER_URL;
-						
-						// Testnet network
-						case Consensus.TESTNET_NETWORK_TYPE:
-						
-							// Return no explorer URL
-							return Consensus.NO_EXPLORER_URL;
-					}
-					
-					// Break
-					break;
 			}
 		}
 		
@@ -500,49 +419,32 @@ class Consensus {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 				
 					// Check network type
 					switch(Consensus.getNetworkType()) {
 					
 						// Mainnet network
 						case Consensus.MAINNET_NETWORK_TYPE:
-						
+
+						    //TODO: And here as well
+                            return Consensus.NO_EXPLORER_URL;
 							// Return explorer output commitment URL
-							return "https://explorer.mwc.mw/#o";
+							//return "https://explorer.mwc.mw/#o";
 						
 						// Testnet network
 						case Consensus.TESTNET_NETWORK_TYPE:
 						
+						    //TODO: And here as well
+                            return Consensus.NO_EXPLORER_URL;
 							// Return explorer output commitment URL
-							return "https://explorer.floonet.mwc.mw/#o";
+							//return "https://explorer.floonet.mwc.mw/#o";
 					}
 					
 					// Break
 					break;
 				
-				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
-				
-					// Check network type
-					switch(Consensus.getNetworkType()) {
-					
-						// Mainnet network
-						case Consensus.MAINNET_NETWORK_TYPE:
-						
-							// Return no explorer URL
-							return Consensus.NO_EXPLORER_URL;
-						
-						// Testnet network
-						case Consensus.TESTNET_NETWORK_TYPE:
-						
-							// Return no explorer URL
-							return Consensus.NO_EXPLORER_URL;
-					}
-					
-					// Break
-					break;
 			}
 		}
 		
@@ -553,14 +455,14 @@ class Consensus {
 			return null;
 		}
 		
-		// Hardware waller starting height
+		// Hardware wallet starting height
 		static get HARDWARE_WALLET_STARTING_HEIGHT() {
 		
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 				
 					// Check network type
 					switch(Consensus.getNetworkType()) {
@@ -569,39 +471,18 @@ class Consensus {
 						case Consensus.MAINNET_NETWORK_TYPE:
 						
 							// Return hardware wallet starting height
-							return 1239928;
+							return 1933800;
 						
 						// Testnet network
 						case Consensus.TESTNET_NETWORK_TYPE:
 						
 							// Return hardware wallet starting height
-							return 1115028;
+							return 1;
 					}
 					
 					// Break
 					break;
 				
-				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
-				
-					// Check network type
-					switch(Consensus.getNetworkType()) {
-					
-						// Mainnet network
-						case Consensus.MAINNET_NETWORK_TYPE:
-						
-							// Return hardware wallet starting height
-							return 1687446;
-						
-						// Testnet network
-						case Consensus.TESTNET_NETWORK_TYPE:
-						
-							// Return hardware wallet starting height
-							return 1195819;
-					}
-					
-					// Break
-					break;
 			}
 		}
 	
@@ -613,8 +494,10 @@ class Consensus {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
+
+                //TODO: Modify this whole section with proper values for Epic Cash
 				
 					// Check if height is the first block height
 					if(height.isEqualTo(Consensus.FIRST_BLOCK_HEIGHT) === true)
@@ -700,11 +583,6 @@ class Consensus {
 						// Return zero
 						return new BigNumber(0);
 				
-				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
-				
-					// Return block reward
-					return new BigNumber("60000000000");
 			}
 		}
 		
@@ -714,8 +592,8 @@ class Consensus {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC allet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 		
 					// Check epoch
 					switch(epoch) {
@@ -795,8 +673,8 @@ class Consensus {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 		
 					// Set offset to the C31 hard fork height
 					var offset = Consensus.getC31HardForkHeight(isMainnet);
@@ -824,8 +702,8 @@ class Consensus {
 			// Check wallet type
 			switch(Consensus.getWalletType()) {
 			
-				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				// EPIC wallet
+				case Consensus.EPIC_WALLET_TYPE:
 		
 					// Return C31 hard fork height
 					return (isMainnet === true) ? new BigNumber(202500) : new BigNumber(270000);
@@ -839,7 +717,7 @@ class Consensus {
 			switch(Consensus.getWalletType()) {
 			
 				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				case Consensus.EPIC_WALLET_TYPE:
 				
 					// Check if height is less than the C31 hard fork height
 					if(height.isLessThan(Consensus.getC31HardForkHeight(isMainnet)) === true)
@@ -854,57 +732,57 @@ class Consensus {
 						return Consensus.C31_HEADER_VERSION;
 			
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				//case Consensus.GRIN_WALLET_TYPE:
 				
 					// Check if mainnet
-					if(isMainnet === true) {
+					//if(isMainnet === true) {
 					
 						// Get header version based on number of hard forks
-						var headerVersion = height.dividedToIntegerBy(Consensus.HARD_FORK_INTERVAL).plus(1);
+						//var headerVersion = height.dividedToIntegerBy(Consensus.HARD_FORK_INTERVAL).plus(1);
 						
 						// Check if header version is greater than the maximum header version
-						if(headerVersion.isGreaterThan(Consensus.MAXIMUM_HEADER_VERSION) === true)
+						//if(headerVersion.isGreaterThan(Consensus.MAXIMUM_HEADER_VERSION) === true)
 						
 							// Set header version to the maximum header version
-							headerVersion = new BigNumber(Consensus.MAXIMUM_HEADER_VERSION);
+							//headerVersion = new BigNumber(Consensus.MAXIMUM_HEADER_VERSION);
 						
 						// Return header version
-						return headerVersion;
-					}
+						//return headerVersion;
+					//}
 					
 					// Otherwise
-					else {
+					//else {
 					
 						// Check is height is less than first hard fork height
-						if(height.isLessThan(Consensus.FIRST_HARD_FORK_HEIGHT) === true)
+						//if(height.isLessThan(Consensus.FIRST_HARD_FORK_HEIGHT) === true)
 						
 							// Return legacy header version
-							return Consensus.LEGACY_HEADER_VERSION;
+							//return Consensus.LEGACY_HEADER_VERSION;
 						
 						// Otherwise check if height is less than second hard fork height
-						else if(height.isLessThan(Consensus.SECOND_HARD_FORK_HEIGHT) === true)
+						//else if(height.isLessThan(Consensus.SECOND_HARD_FORK_HEIGHT) === true)
 						
 							// Return second header version
-							return Consensus.LEGACY_HEADER_VERSION.plus(1);
+							//return Consensus.LEGACY_HEADER_VERSION.plus(1);
 						
 						// Otherwise check if height is less than third hard fork height
-						else if(height.isLessThan(Consensus.THIRD_HARD_FORK_HEIGHT) === true)
+						//else if(height.isLessThan(Consensus.THIRD_HARD_FORK_HEIGHT) === true)
 						
 							// Return third header version
-							return Consensus.LEGACY_HEADER_VERSION.plus(2);
+							//return Consensus.LEGACY_HEADER_VERSION.plus(2);
 						
 						// Otherwise check if height is less than fourth hard forks height
-						else if(height.isLessThan(Consensus.FOURTH_HARD_FORK_HEIGHT) === true)
+						//else if(height.isLessThan(Consensus.FOURTH_HARD_FORK_HEIGHT) === true)
 						
 							// Return fourth header version
-							return Consensus.LEGACY_HEADER_VERSION.plus(3);
+							//return Consensus.LEGACY_HEADER_VERSION.plus(3);
 						
 						// Otherwise
-						else
+						//else
 						
 							// Return fifth header version
-							return Consensus.LEGACY_HEADER_VERSION.plus(4);
-					}
+							//return Consensus.LEGACY_HEADER_VERSION.plus(4);
+					//}
 			}
 		}
 		
@@ -915,7 +793,7 @@ class Consensus {
 			switch(Consensus.getWalletType()) {
 			
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				case Consensus.EPIC_WALLET_TYPE:
 		
 					// Return hard fork interval
 					return Math.floor(Consensus.BLOCK_HEIGHT_YEAR / 2);
@@ -929,7 +807,7 @@ class Consensus {
 			switch(Consensus.getWalletType()) {
 			
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				case Consensus.EPIC_WALLET_TYPE:
 			
 					// Return first hard fork height
 					return 185040;
@@ -943,7 +821,7 @@ class Consensus {
 			switch(Consensus.getWalletType()) {
 			
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				case Consensus.EPIC_WALLET_TYPE:
 			
 					// Return second hard fork height
 					return 298080;
@@ -957,7 +835,7 @@ class Consensus {
 			switch(Consensus.getWalletType()) {
 			
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				case Consensus.EPIC_WALLET_TYPE:
 			
 					// Return third hard fork height
 					return 552960;
@@ -971,7 +849,7 @@ class Consensus {
 			switch(Consensus.getWalletType()) {
 			
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				case Consensus.EPIC_WALLET_TYPE:
 			
 					// Return fourth hard fork height
 					return 642240;
@@ -985,7 +863,7 @@ class Consensus {
 			switch(Consensus.getWalletType()) {
 			
 				// MWC wallet
-				case Consensus.MWC_WALLET_TYPE:
+				case Consensus.EPIC_WALLET_TYPE:
 		
 					// Return C31 header version
 					return Consensus.LEGACY_HEADER_VERSION.plus(1);
@@ -999,7 +877,7 @@ class Consensus {
 			switch(Consensus.getWalletType()) {
 			
 				// GRIN wallet
-				case Consensus.GRIN_WALLET_TYPE:
+				case Consensus.EPIC_WALLET_TYPE:
 			
 					// Return maximum header version
 					return 5;
@@ -1010,7 +888,7 @@ class Consensus {
 		static get DEFAULT_WALLET_TYPE() {
 		
 			// Return default wallet type
-			return Consensus.MWC_WALLET_TYPE;
+			return Consensus.EPIC_WALLET_TYPE;
 		}
 		
 		// Default network type
@@ -1020,18 +898,11 @@ class Consensus {
 			return Consensus.MAINNET_NETWORK_TYPE;
 		}
 		
-		// Wallet MWC text value
-		static get WALLET_MWC_TEXT_VALUE() {
+		// Wallet EPIC text value
+		static get WALLET_EPIC_TEXT_VALUE() {
 		
-			// Return wallet MWC text value
-			return (typeof Language !== "undefined") ? Language.getDefaultTranslation('MimbleWimble Coin') : "MimbleWimble Coin";
-		}
-		
-		// Wallet GRIN value
-		static get WALLET_GRIN_TEXT_VALUE() {
-		
-			// Return wallet GRIN text value
-			return (typeof Language !== "undefined") ? Language.getDefaultTranslation('Grin') : "Grin";
+			// Return wallet EPIC text value
+			return (typeof Language !== "undefined") ? Language.getDefaultTranslation('Epic Cash') : "Epic Cash";
 		}
 		
 		// Network mainnet value
@@ -1046,13 +917,6 @@ class Consensus {
 		
 			// Return network floonet text value
 			return (typeof Language !== "undefined") ? Language.getDefaultTranslation('Floonet') : "Floonet";
-		}
-		
-		// Network testnet value
-		static get NETWORK_TESTNET_TEXT_VALUE() {
-		
-			// Return network testnet text value
-			return (typeof Language !== "undefined") ? Language.getDefaultTranslation('Testnet') : "Testnet";
 		}
 		
 		// Override wallet type URL paramater name
