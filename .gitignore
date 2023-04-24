@@ -13,3 +13,5 @@ package.json
 package-lock.json
 test/unit_tests/build
 cov-int
+bolos-environment
+*-secure-sdk
