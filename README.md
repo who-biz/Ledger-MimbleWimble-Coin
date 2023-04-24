@@ -4,23 +4,23 @@ Ensure that you have the SDK & BOLOS environments set up as subdirectories in ro
 
 You do not need to download `clang` from github releases, as well.  Any old `clang` will work, but make sure its v13.0.1 or higher.
 
-### Python Modules omitted in instructions below:
+## Python Modules omitted in instructions below:
 
 You will need to install `python` and `pip`, then use `pip` to install `Pillow` and `ledgerblue` modules.
 
-```
+```bash
 pip install Pillow
 pip install ledgerblue
 ```
 
 Other than these steps, compilation is very straightforward.
 
-### Compile for Epic Cash on Nano S Plus:
+## Compile for Epic Cash on Nano S Plus:
 
 First, set up environment for `bolos-environment` and `nanosplus-secure-sdk` following instructions in `Building` section of MWC/GRIN README below.  After that, follow the sections that follow *directly below* for **Epic Cash**:
 
 **Compile embedded app for Epic Cash:**
-```
+```bash
 make CURRENCY=epic_cash
 ```
 
@@ -28,11 +28,11 @@ make CURRENCY=epic_cash
 
 With your ledger unlocked, run the following:
 
-```
+```bash
 make load CURRENCY=epic_cash
 ```
 
-### Functional Tests for Epic Cash:
+## Functional Tests for Epic Cash:
 
 In order for functional tests to succeed on a physical device, you need to import the following mnemonic which is used for testing:
 
@@ -48,23 +48,23 @@ Once this mnemonic has been entered to the device, load the app with `make load 
 
 Install remaining dependencies:
 
-```
+```bash
 npm i @ledgerhq/hw-transport-node-speculos @ledgerhq/hw-transport-node-hid
 ```
 
 Finally, open the app, so that you see a screen that reads `Epic Cash is ready`, then run the following command:
 
-```
+```bash
 make functional_tests CURRENCY=epic_cash
 ```
 
-You will be asked to confirm various displays.
+You will be asked to confirm accuracy of various information on-screen as the tests run.
 
-### Unit Tests for Epic Cash
+## Unit Tests for Epic Cash
 
 **Install CMocka development package:**
 
-```
+```bash
 sudo apt-get install libcmocka-dev
 ```
 
@@ -78,7 +78,7 @@ Other possible targets are as follows: Nano S (`nanos`), Nano X (`nanox`), Stax 
 
 **Compile Unit tests for given target:**
 
-```
+```bash
 cmake -Btest/unit_tests/build -Htest/unit_tests/
 cd test/unit_tests/build
 make
