@@ -15,6 +15,79 @@ pip install ledgerblue
 
 Other than these steps, compilation is very straightforward.
 
+### Compile for Epic Cash on Nano S Plus:
+
+First, set up environment for `bolos-environment` and `nanosplus-secure-sdk` following instructions in `Building` section of MWC/GRIN README below.  After that, follow the sections that follow *directly below* for **Epic Cash**:
+
+**Compile embedded app for Epic Cash:**
+```
+make CURRENCY=epic_cash
+```
+
+**Load embedded app onto Ledger:**
+
+With your ledger unlocked, run the following:
+
+```
+make load CURRENCY=epic_cash
+```
+
+### Functional Tests for Epic Cash:
+
+In order for functional tests to succeed on a physical device, you need to import the following mnemonic which is used for testing:
+
+
+```
+1. abandon, 2.) abandon, 3.) abandon, 4.) abandon, 5.) abandon, 6.) abandon, 7.) abandon, 8.) abandon, 9.) abandon, 10.) abandon, 11.) abandon 12.) about
+```
+
+
+Obviously, don't send any meaningful funds to the associated Root or HD addresses/keys.
+
+Once this mnemonic has been entered to the device, load the app with `make load CURRENCY=epic_cash` (if you haven't already).
+
+Install remaining dependencies:
+
+```
+npm i @ledgerhq/hw-transport-node-speculos @ledgerhq/hw-transport-node-hid
+```
+
+Finally, open the app, so that you see a screen that reads `Epic Cash is ready`, then run the following command:
+
+```
+make functional_tests CURRENCY=epic_cash
+```
+
+You will be asked to confirm various displays.
+
+### Unit Tests for Epic Cash
+
+**Install CMocka development package:**
+
+```
+sudo apt-get install libcmocka-dev
+```
+
+**Add `TARGET` environment variable:**
+
+```bash
+# For Nano S Plus:
+export TARGET=nanos2
+```
+Other possible targets are as follows: Nano S (`nanos`), Nano X (`nanox`), Stax (`fatstacks`)
+
+**Compile Unit tests for given target:**
+
+```
+cmake -Btest/unit_tests/build -Htest/unit_tests/
+cd test/unit_tests/build
+make
+```
+You can then run the tests singularly, or all together.
+
+To run all 9 tests at once, call `make test` from `test/unit_tests/build` directory.
+
+
 # MimbleWimble Coin (MWC) and Grin (GRIN) Ledger hardware wallet apps
 
 ### Description
