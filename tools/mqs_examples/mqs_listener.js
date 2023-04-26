@@ -122,7 +122,8 @@ const INDEX = new BigNumber(0);
 	console.log("Waiting for messages from server");
 	
 	// Get messages from the server
-	const messages = await sendGetRequest(MQS_SERVER  + "/listener?address=" + mqsAddress + "&signature=" + Common.toHexString(signature) + "&time_now=" + timestamp /*+ "&delTo=nil&first=true"*/);
+	const messages = await sendGetRequest(MQS_SERVER  + "/listener?address=" + mqsAddress + "&signature=" + Common.toHexString(signature) + "&timenow=" + timestamp + "&delTo=nil&first=true");
+//	const messages = await sendGetRequest(MQS_SERVER  + "/listener?address=" + mqsAddress + "&signature=" + Common.toHexString(signature) + "&timenow=" + timestamp /*+ "&delTo=nil&first=true"*/);
 	
 	// Display message
 	console.log("Messages received");
