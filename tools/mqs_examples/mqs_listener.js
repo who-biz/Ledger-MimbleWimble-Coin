@@ -12,7 +12,7 @@ const Common = require("../../test/functional_tests/common.js");
 // Constants
 
 // MQS server
-const MQS_SERVER = "https://mqs.mwc.mw:443";
+const MQS_SERVER = "https://epicbox.blur.cash:443";
 
 // Request class
 const REQUEST_CLASS = 0xC7;
@@ -70,11 +70,20 @@ const INDEX = new BigNumber(0);
 	// Display message
 	console.log("Getting timestamp from server");
 	
-	// Get timestamp from the server
-	const timestamp = await sendGetRequest(MQS_SERVER  + "/timenow?address=" + mqsAddress);
+	// Get JSON response from the server
+	const jsonResponse = await sendGetRequest(MQS_SERVER  + "/timenow?address=" + mqsAddress);
 	
-	// Display message
-	console.log("Timestamp is " + timestamp);
+	// Display response
+	console.log("Response is " + jsonResponse);
+
+    // Parse to object
+    const obj = JSON.parse(jsonResponse);
+
+    // Get timestamp from object
+    const timestamp = obj.time;
+
+    // Display timestamp
+    console.log("Timestamp is " + timestamp);
 	
 	// Get time zone offset
 	const timeZoneOffset = (new Date()).getTimezoneOffset();
@@ -113,7 +122,7 @@ const INDEX = new BigNumber(0);
 	console.log("Waiting for messages from server");
 	
 	// Get messages from the server
-	const messages = await sendGetRequest(MQS_SERVER  + "/listener?address=" + mqsAddress + "&signature=" + Common.toHexString(signature) + "&time_now=" + timestamp + "&delTo=nil&first=true");
+	const messages = await sendGetRequest(MQS_SERVER  + "/listener?address=" + mqsAddress + "&signature=" + Common.toHexString(signature) + "&time_now=" + timestamp /*+ "&delTo=nil&first=true"*/);
 	
 	// Display message
 	console.log("Messages received");
