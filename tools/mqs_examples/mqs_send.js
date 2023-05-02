@@ -13,13 +13,13 @@ const Mqs = require("../../test/functional_tests/mqs.js");
 // Constants
 
 // Destination
-const DESTINATION = "q5adDmdw32Rsx6GP79NUGgGefSuHEUWbAZCXWFZpdo7TW6hERNRU";
+const DESTINATION = "esZBD3WWcuYEgMrk91Wc9VyM6hHzmh68UNobsHotgTN5p9vzsiHK";
 
 // Data
 const DATA = "Hello, World!";
 
 // MQS server
-const MQS_SERVER = "https://mqs.mwc.mw:443";
+const MQS_SERVER = "https://epicbox.blur.cash:443";
 
 // Request class
 const REQUEST_CLASS = 0xC7;
