@@ -107,7 +107,7 @@ void processGetMqsTimestampSignatureRequest(__attribute__((unused)) const unsign
 	
 	// Set kernel features or transaction type line buffer
 	explicit_bzero(kernelFeaturesOrTransactionTypeLineBuffer, sizeof(kernelFeaturesOrTransactionTypeLineBuffer));
-	strncpy(kernelFeaturesOrTransactionTypeLineBuffer, "MQS", sizeof(kernelFeaturesOrTransactionTypeLineBuffer) - sizeof((char)'\0'));
+	strncpy(kernelFeaturesOrTransactionTypeLineBuffer, "Epicbox", sizeof(kernelFeaturesOrTransactionTypeLineBuffer) - sizeof((char)'\0'));
 	
 	// Show sign MQS timestamp menu
 	showMenu(SIGN_MQS_TIMESTAMP_MENU);

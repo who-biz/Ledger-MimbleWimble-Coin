@@ -506,7 +506,7 @@ char kernelFeaturesDetailsTextOrAccountIndexLineBuffer[KERNEL_FEATURES_DETAILS_T
 		&C_icon_view,
 
 		// First line
-		"Sign MQS",
+		"Sign Epicbox",
 		
 		// Second line
 		"timestamp?"
@@ -1351,7 +1351,7 @@ void showMenu(enum Menu menu) {
 			case SIGN_MQS_TIMESTAMP_MENU:
 			
 				// Show sign MQS timestamp menu
-				nbgl_useCaseReviewStart(&currencyIconBuffer, "Sign MQS timestamp?", NULL, "Deny", signMqsTimestampMenuContinueCallback, signMqsTimestampMenuConfirmRejectCallback);
+				nbgl_useCaseReviewStart(&currencyIconBuffer, "Sign Epicbox timestamp?", NULL, "Deny", signMqsTimestampMenuContinueCallback, signMqsTimestampMenuConfirmRejectCallback);
 				
 				// Break
 				break;
