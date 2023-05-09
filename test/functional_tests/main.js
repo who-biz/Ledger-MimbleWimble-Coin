@@ -687,22 +687,22 @@ async function getAddressTest(hardwareWallet, extendedPrivateKey, addressType) {
 		case MQS_ADDRESS_TYPE:
 		
 			// Log message
-			console.log("Using address type: MQS");
+			console.log("Using address type: Epicbox");
 			
 			// Get MQS private key from the extended private key
 			const mqsPrivateKey = await Crypto.addressKey(extendedPrivateKey, INDEX.toNumber());
 			
-            console.log("breakpoint 1, MQS privkey: (" + Common.toHexString(mqsPrivateKey) + ")");
+            //console.log("breakpoint 1, MQS privkey: (" + Common.toHexString(mqsPrivateKey) + ")");
 
 			// Get MQS public key from the MQS private key
 			const mqsPublicKey = Secp256k1Zkp.publicKeyFromSecretKey(mqsPrivateKey);
 			
-            console.log("breakpoint 2, MQS pubkey: (" + Common.toHexString(mqsPublicKey) + ")");
+            //console.log("breakpoint 2, MQS pubkey: (" + Common.toHexString(mqsPublicKey) + ")");
 
 			// Get expected address from the MQS public key
 			var expectedAddress = Mqs.publicKeyToMqsAddress(mqsPublicKey, Consensus.getNetworkType() === Consensus.MAINNET_NETWORK_TYPE);
 
-            console.log("MQS expectedAddress(" + expectedAddress + ")");
+            console.log("Epicbox expectedAddress(" + expectedAddress + ")");
 			
 			// Break
 			break;
@@ -1109,7 +1109,7 @@ async function verifyAddressTest(hardwareWallet, extendedPrivateKey, addressType
 		case MQS_ADDRESS_TYPE:
 		
 			// Log message
-			console.log("Using address type: MQS");
+			console.log("Using address type: Epicbox");
 			
 			// Get MQS private key from the extended private key
 			const mqsPrivateKey = await Crypto.addressKey(extendedPrivateKey, INDEX.toNumber());
@@ -1124,7 +1124,7 @@ async function verifyAddressTest(hardwareWallet, extendedPrivateKey, addressType
 			if(hardwareWallet instanceof SpeculosTransport === false) {
 			
 				// Log message
-				console.log("Verify that the MQS address on the device is: " + address);
+				console.log("Verify that the Epicbox address on the device is: " + address);
 			}
 			
 			// Break
@@ -1305,7 +1305,7 @@ async function encryptSlateTest(hardwareWallet, extendedPrivateKey, addressType)
 			case MQS_ADDRESS_TYPE:
 			
 				// Log message
-				console.log("Using encryption type: MQS");
+				console.log("Using encryption type: Epicbox");
 			
 				{
 					// Get MQS public key from the private key
@@ -1551,7 +1551,7 @@ async function decryptSlateTest(hardwareWallet, extendedPrivateKey, addressType)
 			case MQS_ADDRESS_TYPE:
 			
 				// Log message
-				console.log("Using decryption type: MQS");
+				console.log("Using decryption type: Epicbox");
 			
 				{
 					// Get public key from the private key
@@ -1914,7 +1914,7 @@ async function receiveTransactionTest(hardwareWallet, extendedPrivateKey, switch
 			case MQS_ADDRESS_TYPE:
 			
 				// Log sender address type
-				console.log("Using sender address type: MQS");
+				console.log("Using sender address type: Epicbox");
 				
 				// Get MQS private key from the extended private key
 				const mqsPrivateKey = await Crypto.addressKey(extendedPrivateKey, INDEX.toNumber());
@@ -1987,7 +1987,7 @@ async function receiveTransactionTest(hardwareWallet, extendedPrivateKey, switch
 			case MQS_PAYMENT_PROOF_TYPE:
 			
 				// Log payment proof type
-				console.log("Using payment proof type: MQS");
+				console.log("Using payment proof type: Epicbox");
 				
 				// Set receiver address type
 				var receiverAddressType = MQS_ADDRESS_TYPE;
@@ -2614,7 +2614,7 @@ async function sendTransactionTest(hardwareWallet, extendedPrivateKey, switchTyp
 		case MQS_ADDRESS_TYPE:
 		
 			// Log sender address type
-			console.log("Using sender address type: MQS");
+			console.log("Using sender address type: Epicbox");
 			
 			// Get MQS private key from the extended private key
 			const mqsPrivateKey = await Crypto.addressKey(extendedPrivateKey, INDEX.toNumber());
@@ -2687,7 +2687,7 @@ async function sendTransactionTest(hardwareWallet, extendedPrivateKey, switchTyp
 		case MQS_PAYMENT_PROOF_TYPE:
 		
 			// Log payment proof type
-			console.log("Using payment proof type: MQS");
+			console.log("Using payment proof type: Epicbox");
 		
 			// Get MQS private key from the extended private key
 			const mqsPrivateKey = await Crypto.addressKey(extendedPrivateKey, INDEX.toNumber());
@@ -3200,7 +3200,7 @@ async function sendTransactionTest(hardwareWallet, extendedPrivateKey, switchTyp
 async function getMqsTimestampSignatureTest(hardwareWallet, extendedPrivateKey) {
 
 	// Log message
-	console.log("Running get MQS timestamp signature test");
+	console.log("Running get Epicbox timestamp signature test");
 	
 	// Timestamp
 	const TIMESTAMP = new BigNumber(Math.round(Math.random() * Common.UINT32_MAX_VALUE));
@@ -3356,7 +3356,7 @@ async function getMqsTimestampSignatureTest(hardwareWallet, extendedPrivateKey) 
 						]
 					},
 					{
-						"text": "MQS TIMESTAMP",
+						"text": "EPICBOX TIMESTAMP",
 						"conditions": [
 						
 							// Is confirmed
@@ -3393,18 +3393,18 @@ async function getMqsTimestampSignatureTest(hardwareWallet, extendedPrivateKey) 
 	response = response.subarray(0, response["length"] - RESPONSE_DELIMITER_LENGTH);
 	
 	// Log MQS timestamp signature
-	console.log("MQS timestamp signature: " + Common.toHexString(response));
+	console.log("Epicbox timestamp signature: " + Common.toHexString(response));
 	
 	// Check if MQS timestamp signature is invalid
 	if(Common.arraysAreEqual(response, expectedMqsTimestampSignature) === false) {
 	
 		// Log message
-		console.log("Invalid MQS timestamp signature");
+		console.log("Invalid Epicbox timestamp signature");
 		
 		// Throw error
-		throw "Failed running get MQS timestamp signature test";
+		throw "Failed running get Epicbox timestamp signature test";
 	}
 	
 	// Log message
-	console.log("Passed getting MQS timestamp signature test");
+	console.log("Passed getting Epicbox timestamp signature test");
 }

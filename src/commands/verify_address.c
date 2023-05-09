@@ -67,11 +67,11 @@ void processVerifyAddressRequest(__attribute__((unused)) const unsigned short *r
 			
 			// Set verify address or approve transaction line buffer
 			explicit_bzero(verifyAddressOrApproveTransactionLineBuffer, sizeof(verifyAddressOrApproveTransactionLineBuffer));
-			strncpy(verifyAddressOrApproveTransactionLineBuffer, "Verify MQS", sizeof(verifyAddressOrApproveTransactionLineBuffer) - sizeof((char)'\0'));
+			strncpy(verifyAddressOrApproveTransactionLineBuffer, "Verify Epicbox", sizeof(verifyAddressOrApproveTransactionLineBuffer) - sizeof((char)'\0'));
 			
 			// Set address type line buffer
 			explicit_bzero(addressTypeLineBuffer, sizeof(addressTypeLineBuffer));
-			strncpy(addressTypeLineBuffer, "MQS Address", sizeof(addressTypeLineBuffer) - sizeof((char)'\0'));
+			strncpy(addressTypeLineBuffer, "Epicbox Address", sizeof(addressTypeLineBuffer) - sizeof((char)'\0'));
 			
 			// Get MQS address
 			char mqsAddress[MQS_ADDRESS_SIZE];
