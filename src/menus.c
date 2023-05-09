@@ -1324,10 +1324,10 @@ void showMenu(enum Menu menu) {
 			case VERIFY_ADDRESS_MENU:
 			
 				// Check if an MQS address is being verified
-				if(!strncmp(addressTypeLineBuffer, "MQS Address", sizeof(addressTypeLineBuffer))) {
+				if(!strncmp(addressTypeLineBuffer, "Epicbox Address", sizeof(addressTypeLineBuffer))) {
 				
 					// Show verify address menu
-					nbgl_useCaseReviewStart(&currencyIconBuffer, "Verify MQS address", NULL, "Cancel", verifyAddressMenuContinueCallback, verifyAddressMenuRejectCallback);
+					nbgl_useCaseReviewStart(&currencyIconBuffer, "Verify Epicbox address", NULL, "Cancel", verifyAddressMenuContinueCallback, verifyAddressMenuRejectCallback);
 				}
 				
 				// Otherwise check if a Tor address is being verified
@@ -1643,10 +1643,10 @@ void showMenu(enum Menu menu) {
 			if(processUserInteraction(VERIFY_ADDRESS_INSTRUCTION, true, false)) {
 			
 				// Check if an MQS address is being verified
-				if(!strncmp(addressTypeLineBuffer, "MQS Address", sizeof(addressTypeLineBuffer))) {
+				if(!strncmp(addressTypeLineBuffer, "Epicbox Address", sizeof(addressTypeLineBuffer))) {
 				
 					// Show status
-					nbgl_useCaseStatus("MQS ADDRESS\nVERIFIED", true, showMainMenu);
+					nbgl_useCaseStatus("EPICBOX ADDRESS\nVERIFIED", true, showMainMenu);
 				}
 				
 				// Otherwise check if a Tor address is being verified
@@ -1668,10 +1668,10 @@ void showMenu(enum Menu menu) {
 			else {
 				
 				// Check if an MQS address is being verified
-				if(!strncmp(addressTypeLineBuffer, "MQS Address", sizeof(addressTypeLineBuffer))) {
+				if(!strncmp(addressTypeLineBuffer, "Epicbox Address", sizeof(addressTypeLineBuffer))) {
 				
 					// Show status
-					nbgl_useCaseStatus("Verifying MQS address\nfailed", false, showMainMenu);
+					nbgl_useCaseStatus("Verifying Epicbox address\nfailed", false, showMainMenu);
 				}
 				
 				// Otherwise check if a Tor address is being verified
@@ -1756,10 +1756,10 @@ void showMenu(enum Menu menu) {
 		processUserInteraction(VERIFY_ADDRESS_INSTRUCTION, false, false);
 		
 		// Check if an MQS address is being verified
-		if(!strncmp(addressTypeLineBuffer, "MQS Address", sizeof(addressTypeLineBuffer))) {
+		if(!strncmp(addressTypeLineBuffer, "Epicbox Address", sizeof(addressTypeLineBuffer))) {
 		
 			// Show status
-			nbgl_useCaseStatus("Verifying MQS address\ncanceled", false, showMainMenu);
+			nbgl_useCaseStatus("Verifying Epicbox address\ncanceled", false, showMainMenu);
 		}
 		
 		// Otherwise check if a Tor address is being verified
@@ -1797,7 +1797,7 @@ void showMenu(enum Menu menu) {
 		
 		// Set sign MQS timestamp menu info long press
 		signMqsTimestampMenuInfoLongPress.icon = &currencyIconBuffer;
-		signMqsTimestampMenuInfoLongPress.text = "Sign MQS timestamp?";
+		signMqsTimestampMenuInfoLongPress.text = "Sign Epicbox timestamp?";
 		signMqsTimestampMenuInfoLongPress.longPressText = "Hold to sign";
 		
 		// Show static review
@@ -1814,14 +1814,14 @@ void showMenu(enum Menu menu) {
 			if(processUserInteraction(GET_MQS_TIMESTAMP_SIGNATURE_INSTRUCTION, true, true)) {
 			
 				// Show status
-				nbgl_useCaseStatus("MQS TIMESTAMP\nSIGNED", true, showMainMenu);
+				nbgl_useCaseStatus("EPICBOX TIMESTAMP\nSIGNED", true, showMainMenu);
 			}
 			
 			// Otherwise
 			else {
 			
 				// Show status
-				nbgl_useCaseStatus("Signing MQS\ntimestamp failed", false, showMainMenu);
+				nbgl_useCaseStatus("Signing Epicbox\ntimestamp failed", false, showMainMenu);
 			}
 		}
 		
@@ -1837,7 +1837,7 @@ void showMenu(enum Menu menu) {
 	void signMqsTimestampMenuConfirmRejectCallback(void) {
 	
 		// Show confirm
-		nbgl_useCaseConfirm("Deny signing MQS\ntimestamp?", NULL, "Yes, deny", "Go back", signMqsTimestampMenuRejectCallback);
+		nbgl_useCaseConfirm("Deny signing Epicbox\ntimestamp?", NULL, "Yes, deny", "Go back", signMqsTimestampMenuRejectCallback);
 	}
 	
 	// Sign MQS timestamp menu reject callback
@@ -1847,7 +1847,7 @@ void showMenu(enum Menu menu) {
 		processUserInteraction(GET_MQS_TIMESTAMP_SIGNATURE_INSTRUCTION, false, false);
 		
 		// Show status
-		nbgl_useCaseStatus("Signing MQS\ntimestamp denied", false, showMainMenu);
+		nbgl_useCaseStatus("Signing Epicbox\ntimestamp denied", false, showMainMenu);
 	}
 	
 	// Sign approve transaction menu continue callback
